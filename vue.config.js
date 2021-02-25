@@ -7,7 +7,6 @@ module.exports = {
         return args;
       })
   },
-  outputDir: "docs",
   transpileDependencies: [
     'vuetify'
   ]
