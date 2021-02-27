@@ -122,7 +122,7 @@ enum PlayState {
 @Component
 export default class RadioPlayer extends Vue {
   // radio url
-  streamUrl = 'http://broadcast.raste.live:8000/radio.mp3'
+  streamUrl = '//broadcast.raste.live/stream'
 
   playState = PlayState.PAUSED
 

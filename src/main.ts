@@ -14,7 +14,7 @@ import { io } from 'socket.io-client'
 
 Vue.config.productionTip = false
 
-const socket = io('http://broadcast.raste.live:5000', {
+const socket = io('//broadcast.raste.live', {
   transports: ['websocket', 'xhr-polling']
 })
 
