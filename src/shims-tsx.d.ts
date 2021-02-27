@@ -10,4 +10,13 @@ declare global {
       [elem: string]: any;
     }
   }
+
+  interface SongMetadata {
+    is_stream_offline: boolean;
+    title: string;
+    artist: string;
+    played_at: string;
+    query: string;
+    listeners: number;
+  }
 }

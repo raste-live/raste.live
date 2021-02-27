@@ -6,11 +6,11 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    isDarkMode: false,
+    volume: 50
   },
   mutations: {
-    setDarkMode (state, value: boolean) {
-      state.isDarkMode = value
+    setVolume (state, value) {
+      state.volume = value
     }
   },
   actions: {
