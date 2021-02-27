@@ -1,19 +1,13 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
+import Radio from '@/views/Radio.vue'
+import Streaming from '@/views/Streaming.vue'
 
 Vue.use(VueRouter)
 
 const routes: Array<RouteConfig> = [
-  {
-    path: '/radio',
-    name: 'radio',
-    component: () => import('@/views/Radio.vue')
-  },
-  {
-    path: '/streaming',
-    name: 'streaming',
-    component: () => import('@/views/Streaming.vue')
-  },
+  { path: '/radio', name: 'radio', component: Radio },
+  { path: '/streaming', name: 'streaming', component: Streaming },
   { path: '/', redirect: { name: 'radio' } },
   { path: '', redirect: { name: 'radio' } },
 ]
