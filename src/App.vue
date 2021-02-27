@@ -25,4 +25,10 @@ export default class App extends Vue {}
 
 <style lang="scss">
 @import '@/assets/app.scss';
+
+#app .v-bottom-navigation .v-btn {
+  height: inherit !important;
+  background-color: transparent !important;
+  min-width: 80px !important;
+}
 </style>
