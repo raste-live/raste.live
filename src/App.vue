@@ -1,20 +1,28 @@
 <template>
   <v-app>
-    <Navbar/>
+    <Appbar/>
 
     <v-main>
-      <router-view />
+      <v-container fluid>
+        <router-view />
+      </v-container>
     </v-main>
+
+    <BottomNavigation />
   </v-app>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import Navbar from '@/components/Navbar.vue'
-
+import Appbar from '@/components/Appbar.vue'
+import BottomNavigation from '@/components/BottomNavigation.vue'
 
 @Component({
-  components: { Navbar }
+  components: { Appbar, BottomNavigation }
 })
 export default class App extends Vue {}
 </script>
+
+<style lang="scss">
+@import '@/assets/app.scss';
+</style>
