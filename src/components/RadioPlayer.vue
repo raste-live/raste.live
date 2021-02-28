@@ -224,6 +224,6 @@ export default class RadioPlayer extends Vue {
 
   .song-title-wrapper { position: relative; }
 
-  .song-title { overflow-wrap: break-word; }
+  .song-title { word-break: keep-all; overflow-wrap: break-word; }
 }
 </style>
