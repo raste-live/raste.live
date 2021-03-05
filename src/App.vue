@@ -8,27 +8,21 @@
       </v-container>
     </v-main>
 
-    <BottomNavigation />
+    <Footer/>
   </v-app>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import Appbar from '@/components/Appbar.vue'
-import BottomNavigation from '@/components/BottomNavigation.vue'
+import Footer from '@/components/Footer.vue'
 
 @Component({
-  components: { Appbar, BottomNavigation }
+  components: { Appbar, Footer }
 })
 export default class App extends Vue {}
 </script>
 
 <style lang="scss">
 @import '@/assets/app.scss';
-
-#app .v-bottom-navigation .v-btn {
-  height: inherit !important;
-  background-color: transparent !important;
-  min-width: 80px !important;
-}
 </style>
