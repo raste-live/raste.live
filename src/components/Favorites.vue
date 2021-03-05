@@ -107,9 +107,9 @@ export default class Favorites extends Vue {
                 this.favorites.splice(index, 1)
               }
             }
-
-            this.loading = false
           })
+
+          this.loading = false
         })
       })
   }
