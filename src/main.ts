@@ -6,6 +6,7 @@ import store from './store'
 import vuetify from './plugins/vuetify'
 import firebase from 'firebase/app'
 import 'firebase/analytics'
+import 'firebase/auth'
 import moment from 'moment'
 import * as VueMoment from 'vue-moment'
 import 'moment/locale/ko'
@@ -33,6 +34,11 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig)
 firebase.analytics()
+
+firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+firebase.auth().onAuthStateChanged((user) => {
+  store.commit('setUser', user)
+})
 
 new Vue({
   router,
