@@ -13,10 +13,18 @@ declare global {
 
   interface SongMetadata {
     is_stream_offline: boolean;
+    id: string;
     title: string;
     artist: string;
     played_at: string;
     query: string;
     listeners: number;
+  }
+
+  interface Favorite {
+    id: string;
+    title: string;
+    artist: string;
+    created_at: string;
   }
 }
