@@ -3,7 +3,7 @@ module.exports = {
     config
       .plugin('html')
       .tap((args) => {
-        args[0].title = "Raste.live";
+        args[0].title = "raste.live";
         return args;
       })
   },
