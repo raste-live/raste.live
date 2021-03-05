@@ -38,7 +38,7 @@
           <v-card-text>
             <v-btn block color="red" @click="signInWithGoogle">
               <v-icon class="mr-2">mdi-google</v-icon>
-              구글로 로그인
+              구글 계정으로 로그인
             </v-btn>
           </v-card-text>
         </template>
