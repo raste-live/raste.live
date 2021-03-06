@@ -16,6 +16,7 @@ const routes: Array<RouteConfig> = [
   },
   { path: '/', redirect: { name: 'radio' } },
   { path: '', redirect: { name: 'radio' } },
+  { path: '*', redirect: { name: 'radio' } },
 ]
 
 const router = new VueRouter({

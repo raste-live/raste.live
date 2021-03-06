@@ -22,8 +22,7 @@
         <v-btn
           icon
           v-bind="attrs"
-          v-on="on"
-        >
+          v-on="on">
           <v-icon>{{ user ? 'mdi-account' : 'mdi-account-outline' }}</v-icon>
         </v-btn>
       </template>
@@ -44,7 +43,7 @@
         </template>
         <template v-else>
           <v-card-title class="font-gugi mb-2">
-            <v-icon class="mr-2">mdi-google</v-icon>
+            <v-icon class="mr-2" color="red">mdi-google</v-icon>
             {{ user.email }}
           </v-card-title>
 
