@@ -1,22 +1,21 @@
 <template>
   <v-card class="mx-auto mt-4 mb-8 player" max-width="640">
     <v-toolbar>
-      <v-btn icon @click="count = count + 1">
+      <v-app-bar-nav-icon>
         <v-icon>
           mdi-radio
         </v-icon>
-      </v-btn>
+      </v-app-bar-nav-icon>
+
       <v-toolbar-title class="font-gugi">
         RADIO
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
 
-      <template v-if="user && !metadata.is_stream_offline">
-        <v-btn icon @click="toggleFavorite" :color="favorite ? 'red' : 'default'">
-          <v-icon>{{ favorite ? 'mdi-heart' : 'mdi-heart-outline' }}</v-icon>
-        </v-btn>
-      </template>
+      <v-btn v-if="!metadata.is_stream_offline" icon @click="toggleFavorite" :color="favorite ? 'red' : 'default'">
+        <v-icon>{{ favorite ? 'mdi-heart' : 'mdi-heart-outline' }}</v-icon>
+      </v-btn>
 
       <v-menu left offset-y transition="slide-y">
         <template v-slot:activator="{ on, attrs }">
@@ -62,7 +61,7 @@
       </v-card-title>
     </div>
     <div v-else class="song-title-wrapper">
-      <v-overlay :absolute="true" :value="metadataLoading">
+      <v-overlay :absolute="true" :value="loading">
         <v-progress-circular
           indeterminate
           size="48"
@@ -99,19 +98,20 @@
       </v-col>
     </v-row>
 
-    <v-snackbar v-model="snackbar">
-      그만눌러 ㄹㅇ 아무것도 없음
-
-      <template v-slot:action="{ attrs }">
-        <v-btn
-          color="pink"
-          text
-          v-bind="attrs"
-          @click="snackbar = false">
-          Close
-        </v-btn>
-      </template>
-    </v-snackbar>
+    <v-dialog v-model="dialog" max-width="290">
+      <v-card>
+        <v-card-title>로그인이 필요합니다.</v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="pink"
+            text
+            @click="dialog = false">
+            Close
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-card>
 </template>
 
@@ -120,7 +120,6 @@ import { Component, Vue, Watch } from 'vue-property-decorator'
 import { Socket } from 'vue-socket.io-extended'
 import { mapGetters } from 'vuex'
 import firebase from 'firebase/app'
-import Favorites from '@/components/Favorites.vue'
 
 enum PlayState {
   PAUSED,
@@ -129,8 +128,7 @@ enum PlayState {
 }
 
 @Component({
-  components: { Favorites },
-  computed: { ...mapGetters({ user: "user" }) }
+  computed: { ...mapGetters({ user: "user", favorites: "favorites" }) }
 })
 export default class RadioPlayer extends Vue {
   // radio url
@@ -139,18 +137,19 @@ export default class RadioPlayer extends Vue {
   playState = PlayState.PAUSED
 
   user!: firebase.User
-  radio?: HTMLAudioElement
+  favorites!: Favorite[]
 
-  count = 0
-  snackbar = false
+  radio: HTMLAudioElement = new Audio()
+
+  loading = true
+  dialog = false
 
   favorite = false
-  favoriteLoading = false
 
-  metadataLoading = true
   /* eslint-disable @typescript-eslint/camelcase */
-  metadata: SongMetadata = {
+  metadata: Metadata = {
     is_stream_offline: false,
+    is_metadata_changed: false,
     id: '',
     title: '　',
     artist: '　',
@@ -161,7 +160,9 @@ export default class RadioPlayer extends Vue {
   /* eslint-enable @typescript-eslint/camelcase */
 
   mounted () {
-    this.initRadio()
+    this.radio.onplaying = () => { this.playState = PlayState.PLAYING }
+    this.radio.onended = this.stopRadio
+    this.radio.volume = this.volume * 0.01
 
     this.$socket.client.emit('metadata')
   }
@@ -171,24 +172,16 @@ export default class RadioPlayer extends Vue {
   }
 
   @Socket('metadata')
-  getMetadata (metadata: SongMetadata) {
-    if (this.metadata.id != metadata.id && !metadata.is_stream_offline) {
-      if (this.user) this.getFavorite(metadata.id)
-    }
+  getMetadata (metadata: Metadata) {
     this.metadata = metadata
-    this.metadataLoading = false
+    this.loading = false
   }
 
-  @Watch('user')
-  userChanged () {
-    this.favorite = false
-
-    if (this.user) this.getFavorite(this.metadata.id)
-  }
-
-  @Watch('count')
-  countChanged () {
-    if (this.count == 20) this.snackbar = true
+  @Watch('metadata')
+  @Watch('favorites')
+  metadataChanged () {
+    const index = this.favorites.findIndex((item) => item.id == this.metadata.id)
+    this.favorite = index != -1
   }
 
   get volume () {
@@ -196,18 +189,17 @@ export default class RadioPlayer extends Vue {
   }
   set volume (value) { 
     this.$store.commit('setVolume', value)
-
-    if (this.radio) {
-      this.radio.volume = value * 0.01
-    }
+    this.radio.volume = value * 0.01
   }
 
   get isLoading () {
     return this.playState == PlayState.LOADING
   }
-
   get isPaused () {
     return this.playState == PlayState.PAUSED
+  }
+  get isPlaying () {
+    return this.playState == PlayState.PLAYING
   }
 
   toggleRadio () {
@@ -218,50 +210,27 @@ export default class RadioPlayer extends Vue {
     }
   }
 
-  initRadio () {
-    this.playState = PlayState.PAUSED
-
-    this.radio = new Audio()
-
-    this.radio.onplaying = () => { this.playState = PlayState.PLAYING }
-    this.radio.onended = this.stopRadio
-    this.radio.volume = this.volume * 0.01
-  }
-
   playRadio () {
     this.playState = PlayState.LOADING
-
-    if (this.radio) {
-      this.radio.src = this.streamUrl
-      this.radio.play()
-    }
+    this.radio.src = this.streamUrl
+    this.radio.play()
   }
 
   stopRadio () {
-    if (this.radio) this.radio.pause()
-
-    this.initRadio()
-  }
-
-  getFavorite (id: string) {
-    this.favoriteLoading = true
-
-    this.$store.dispatch('getFavorite', id)
-      .then((doc) => this.favorite = doc.exists)
-      .finally(() => this.favoriteLoading = false)
+    this.radio.pause()
+    this.radio.src = ''
+    this.playState = PlayState.PAUSED
   }
 
   toggleFavorite () {
-    if (this.favoriteLoading) return
-
-    this.favoriteLoading = true
-
-    if (this.favorite) {
-      this.$store.dispatch('removeFavorite', this.metadata.id)
-        .then(() => this.getFavorite(this.metadata.id))
-    } else {
-      this.$store.dispatch('addFavorite', this.metadata)
-        .then(() => this.getFavorite(this.metadata.id))
+    if (!this.user) {
+      this.dialog = true
+    } else if (this.metadata.id) {
+      if (this.favorite) {
+        this.$store.dispatch('removeFavorite', this.metadata.id)
+      } else {
+        this.$store.dispatch('addFavorite', this.metadata)
+      }
     }
   }
 }

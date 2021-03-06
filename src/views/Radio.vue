@@ -6,6 +6,10 @@
       </v-col>
 
       <v-col cols="12">
+        <PlayHistory />
+      </v-col>
+
+      <v-col cols="12">
         <Favorites v-if="user"/>
       </v-col>
 
@@ -37,10 +41,11 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { mapGetters } from 'vuex'
 import RadioPlayer from '@/components/RadioPlayer.vue'
+import PlayHistory from '@/components/PlayHistory.vue'
 import Favorites from '@/components/Favorites.vue'
 
 @Component({
-  components: { RadioPlayer, Favorites },
+  components: { RadioPlayer, PlayHistory, Favorites },
   computed: { ...mapGetters({ user: "user" }) }
 })
 export default class Radio extends Vue {

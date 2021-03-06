@@ -11,8 +11,9 @@ declare global {
     }
   }
 
-  interface SongMetadata {
+  interface Metadata {
     is_stream_offline: boolean;
+    is_metadata_changed: boolean;
     id: string;
     title: string;
     artist: string;
