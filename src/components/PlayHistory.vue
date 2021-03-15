@@ -1,16 +1,19 @@
 <template>
   <v-card>
     <v-toolbar>
-      <v-btn icon>
+      <v-app-bar-nav-icon>
         <v-icon>
           mdi-note-outline
         </v-icon>
-      </v-btn>
+      </v-app-bar-nav-icon>
+
       <v-toolbar-title class="font-gugi">
-        Play History
+        Played
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
+
       <v-text-field
         v-model="search"
         append-icon="mdi-magnify"
@@ -25,6 +28,7 @@
       :items="history"
       :search="search"
       :items-per-page="5"
+      :footer-props="{ itemsPerPageText: '페이지 당 갯수' }"
       sort-by="played_at"
       :sort-desc="true">
       <template v-slot:item.played_at="{ item }">
@@ -32,6 +36,9 @@
       </template>
       <template v-slot:no-data>
         <v-icon large class="my-8">mdi-note-multiple-outline</v-icon>
+      </template>
+      <template v-slot:no-results>
+        검색어와 일치하는 곡이 없습니다.
       </template>
     </v-data-table>
   </v-card>
