@@ -14,6 +14,11 @@ const routes: Array<RouteConfig> = [
     name: 'streaming',
     component: () => import('@/views/Streaming.vue')
   },
+  {
+    path: '/license',
+    name: 'license',
+    component: () => import('@/views/License.vue')
+  },
   { path: '/', redirect: { name: 'radio' } },
   { path: '', redirect: { name: 'radio' } },
   { path: '*', redirect: { name: 'radio' } },
