@@ -1,16 +1,19 @@
 <template>
   <v-card>
     <v-toolbar>
-      <v-btn icon>
+      <v-app-bar-nav-icon>
         <v-icon color="red">
           mdi-heart
         </v-icon>
-      </v-btn>
+      </v-app-bar-nav-icon>
+
       <v-toolbar-title class="font-gugi">
         Favorites
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
+
       <v-text-field
         v-model="search"
         append-icon="mdi-magnify"
@@ -33,18 +36,22 @@
       :items="favorites"
       :search="search"
       :items-per-page="5"
+      :footer-props="{ itemsPerPageText: '페이지 당 갯수' }"
       sort-by="created_at"
       :sort-desc="true">
       <template v-slot:item.created_at="{ item }">
         {{ item.created_at.seconds | moment('LLL') }}
       </template>
       <template v-slot:item.actions="{ item }">
-        <v-icon @click="deleteItem(item)">
-          mdi-close
-        </v-icon>
+        <v-btn icon @click="deleteItem(item)">
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
       </template>
       <template v-slot:no-data>
         <v-icon large class="my-8">mdi-heart-multiple-outline</v-icon>
+      </template>
+      <template v-slot:no-results>
+        검색어와 일치하는 곡이 없습니다.
       </template>
     </v-data-table>
 

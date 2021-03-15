@@ -1,14 +1,19 @@
 {
-  "name": "raste-kr.github.io",
-  "version": "0.1.0",
+  "name": "raste-live",
+  "email": "raste.live@gmail.com",
+  "version": "0.4.0",
+  "license": "MIT",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/raste-live/raste.live"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@types/vue-moment": "^4.0.2",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "firebase": "^8.2.9",
@@ -25,6 +30,7 @@
   },
   "devDependencies": {
     "@mdi/font": "^5.9.55",
+    "@types/vue-moment": "^4.0.2",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
     "@vue/cli-plugin-babel": "~4.5.0",
