@@ -29,7 +29,15 @@
           </v-toolbar>
           
           <v-responsive v-if="toggleDiscord" class="iframe-container" :aspect-ratio="16/9">
-            <iframe class="responsive-iframe" src="https://titanembeds.com/embed/633670564774543361?defaultchannel=633670564774543363&lockscrollbar=true&theme=DiscordDark" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+            <v-lazy
+              v-model="isDiscordActive"
+              :options="{
+                threshold: .5
+              }"
+              transition="fade-transition"
+            >
+              <iframe class="responsive-iframe" src="https://titanembeds.com/embed/633670564774543361?defaultchannel=633670564774543363&lockscrollbar=true&theme=DiscordDark" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+            </v-lazy>
           </v-responsive>
         </v-card>
       </v-col>
@@ -50,5 +58,6 @@ import Favorites from '@/components/Favorites.vue'
 })
 export default class Radio extends Vue {
   toggleDiscord = true
+  isDiscordActive = false
 }
 </script>
