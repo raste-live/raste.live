@@ -34,12 +34,6 @@ export default class License extends Vue {
   libraries = [
     {
       "licenses": "MIT",
-      "repository": "https://github.com/axios/axios",
-      "name": "axios",
-      "copyright": "Copyright (c) 2014-present Matt Zabriskie"
-    },
-    {
-      "licenses": "MIT",
       "repository": "https://github.com/zloirock/core-js",
       "name": "core-js",
       "copyright": "Copyright (c) 2014-2021 Denis Pushkarev"
