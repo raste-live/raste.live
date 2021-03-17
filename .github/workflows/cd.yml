@@ -7,40 +7,41 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     if: >-
       ${{ !contains(github.event.head_commit.message, '[ci skip]') &&
       !contains(github.event.head_commit.message, '[skip ci]')
       }}
     steps:
-      - name: Checkout source code.
-        uses: actions/checkout@master
+      - uses: actions/checkout@v2
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-northeast-2
+          aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Cache node modules
-        uses: actions/cache@v1
+      - name: Setup Node
+        uses: actions/setup-node@v2.1.2
         with:
-          path: node_modules
-          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
+          node-version: '12.x'
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.OS }}-build-
-            ${{ runner.OS }}-
+            ${{ runner.os }}-node-
 
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Build
-        run: npm run build
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
 
       - name: Deploy to S3
         run: |
-          aws s3 sync ./dist s3://raste.live
+          aws s3 sync ./dist ${{ secrets.AWS_S3_BUCKET }}
 
       - name: Create CloudFront Invalidation
         run: |
