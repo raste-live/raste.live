@@ -25,7 +25,7 @@
       </v-card-text>
 
       <v-card-text class="font-gugi">
-        2021 — <strong>raste.live</strong>
+        ⓒ 2021. <strong>raste.live</strong>
       </v-card-text>
     </v-card>
   </v-footer>

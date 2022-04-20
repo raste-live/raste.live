@@ -30,7 +30,6 @@ import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class License extends Vue {
-
   libraries = [
     {
       "licenses": "MIT",
@@ -105,6 +104,5 @@ export default class License extends Vue {
       "copyright": "Copyright (c) 2015-present Evan You"
     }
   ]
-
 }
 </script>
