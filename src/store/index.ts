@@ -19,7 +19,7 @@ const state: State = {
   user: undefined,
   history: [],
   favorites: [],
-  isDiscordActive: (localStorage.getItem('isDiscordActive') ?? 'true') === 'true',
+  isDiscordActive: (localStorage.getItem('isDiscordActive') ?? 'true') == 'true',
 }
 
 export default new Vuex.Store({
