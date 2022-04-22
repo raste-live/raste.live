@@ -7,7 +7,7 @@
         </v-icon>
       </v-app-bar-nav-icon>
 
-      <v-toolbar-title class="font-gugi">
+      <v-toolbar-title class="font-gugi d-none d-sm-block ml-n4">
         RADIO
       </v-toolbar-title>
 
@@ -96,8 +96,8 @@
         label=""
       ></v-slider>
 
-      <v-spacer />
-      <v-spacer />
+      <v-spacer class="d-none d-sm-block" />
+      <v-spacer class="d-none d-sm-block" />
 
       <v-btn plain href="https://live365.com/station/raste-live-a39214" target="_blank">
         <svg style="fill: #d5d5d5;" height="18" viewBox="0 0 277 42" xmlns="http://www.w3.org/2000/svg">

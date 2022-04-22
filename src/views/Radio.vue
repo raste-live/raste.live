@@ -14,32 +14,7 @@
       </v-col>
 
       <v-col cols="12">
-        <v-card>
-          <v-toolbar>
-            <v-btn icon>
-              <v-icon>mdi-discord</v-icon>
-            </v-btn>
-            <v-toolbar-title>Discord</v-toolbar-title>
-            <v-spacer></v-spacer>
-            <v-switch
-              v-model="toggleDiscord"
-              hide-details 
-              label=""
-            ></v-switch>
-          </v-toolbar>
-          
-          <v-responsive v-if="toggleDiscord" class="iframe-container" :aspect-ratio="16/9">
-            <v-lazy
-              v-model="isDiscordActive"
-              :options="{
-                threshold: .5
-              }"
-              transition="fade-transition"
-            >
-              <iframe class="responsive-iframe" src="https://titanembeds.com/embed/633670564774543361?defaultchannel=633670564774543363&lockscrollbar=true&theme=DiscordDark" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
-            </v-lazy>
-          </v-responsive>
-        </v-card>
+        <Discord />
       </v-col>
     </v-row>
   </v-container>
@@ -51,13 +26,11 @@ import { mapGetters } from 'vuex'
 import RadioPlayer from '@/components/RadioPlayer.vue'
 import PlayHistory from '@/components/PlayHistory.vue'
 import Favorites from '@/components/Favorites.vue'
+import Discord from '@/components/Discord.vue'
 
 @Component({
-  components: { RadioPlayer, PlayHistory, Favorites },
+  components: { RadioPlayer, PlayHistory, Favorites, Discord },
   computed: { ...mapGetters({ user: "user" }) }
 })
-export default class Radio extends Vue {
-  toggleDiscord = true
-  isDiscordActive = false
-}
+export default class Radio extends Vue {}
 </script>

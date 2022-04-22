@@ -7,20 +7,9 @@
         </v-icon>
       </v-app-bar-nav-icon>
 
-      <v-toolbar-title class="font-gugi">
+      <v-toolbar-title class="font-gugi ml-n4">
         Favorites
       </v-toolbar-title>
-
-      <v-spacer></v-spacer>
-      <v-spacer></v-spacer>
-
-      <v-text-field
-        v-model="search"
-        append-icon="mdi-magnify"
-        label="검색"
-        single-line
-        hide-details
-      ></v-text-field>
     </v-toolbar>
 
     <v-skeleton-loader
@@ -38,18 +27,33 @@
       :items-per-page="5"
       :footer-props="{ itemsPerPageText: '페이지 당 갯수' }"
       sort-by="created_at"
-      :sort-desc="true">
+      :sort-desc="true"
+    >
+      <template v-slot:top>
+        <v-text-field
+          v-model="search"
+          class="mx-4 mb-2"
+          append-icon="mdi-magnify"
+          label="검색"
+          single-line
+          hide-details
+        ></v-text-field>
+      </template>
+
       <template v-slot:item.created_at="{ item }">
         {{ item.created_at.seconds | moment('LLL') }}
       </template>
+
       <template v-slot:item.actions="{ item }">
         <v-btn icon @click="deleteItem(item)">
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </template>
+
       <template v-slot:no-data>
         <v-icon large class="my-8">mdi-heart-multiple-outline</v-icon>
       </template>
+
       <template v-slot:no-results>
         검색어와 일치하는 곡이 없습니다.
       </template>
@@ -79,9 +83,9 @@ import firebase from 'firebase/app'
 })
 export default class Favorites extends Vue {
   headers = [
-    { text: '곡제목', value: 'title' },
-    { text: '아티스트', value: 'artist' },
-    { text: '등록', value: 'created_at' },
+    { text: '곡제목', value: 'title', sortable: false },
+    { text: '아티스트', value: 'artist', sortable: false },
+    { text: '등록', value: 'created_at', sortable: false },
     { text: '', value: 'actions', sortable: false },
   ]
 

@@ -11,6 +11,7 @@ interface State {
   user?: firebase.User;
   history: Metadata[];
   favorites: Favorite[];
+  isDiscordActive: boolean;
 }
 
 const state: State = {
@@ -18,6 +19,7 @@ const state: State = {
   user: undefined,
   history: [],
   favorites: [],
+  isDiscordActive: (localStorage.getItem('isDiscordActive') ?? 'true') == 'true',
 }
 
 export default new Vuex.Store({
@@ -60,6 +62,10 @@ export default new Vuex.Store({
     },
     setHistory (state, history) {
       state.history = history
+    },
+    setIsDiscordActive (state, value) {
+      localStorage.setItem('isDiscordActive', value)
+      state.isDiscordActive = value
     },
   },
   actions: {

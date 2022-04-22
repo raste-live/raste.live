@@ -3,42 +3,27 @@
     <v-toolbar>
       <v-app-bar-nav-icon>
         <v-icon>
-          mdi-note-outline
+          mdi-history
         </v-icon>
       </v-app-bar-nav-icon>
 
-      <v-toolbar-title class="font-gugi">
-        Played
+      <v-toolbar-title class="font-gugi ml-n4">
+        History
       </v-toolbar-title>
-
-      <v-spacer></v-spacer>
-      <v-spacer></v-spacer>
-
-      <v-text-field
-        v-model="search"
-        append-icon="mdi-magnify"
-        label="검색"
-        single-line
-        hide-details
-      ></v-text-field>
     </v-toolbar>
 
     <v-data-table
       :headers="headers"
       :items="history"
-      :search="search"
       :items-per-page="5"
       :footer-props="{ itemsPerPageText: '페이지 당 갯수' }"
       sort-by="played_at"
       :sort-desc="true">
       <template v-slot:item.played_at="{ item }">
-        {{ item.played_at | moment('LLL') }}
+        {{ item.played_at | moment('LT') }}
       </template>
       <template v-slot:no-data>
         <v-icon large class="my-8">mdi-note-multiple-outline</v-icon>
-      </template>
-      <template v-slot:no-results>
-        검색어와 일치하는 곡이 없습니다.
       </template>
     </v-data-table>
   </v-card>
@@ -54,12 +39,10 @@ import { mapGetters } from 'vuex'
 })
 export default class PlayHistory extends Vue {
   headers = [
-    { text: '곡제목', value: 'title' },
-    { text: '아티스트', value: 'artist' },
-    { text: '재생', value: 'played_at' },
+    { text: '곡제목', value: 'title', sortable: false },
+    { text: '아티스트', value: 'artist', sortable: false },
+    { text: '재생', value: 'played_at', sortable: false },
   ]
-
-  search = ''
 
   mounted () {
     this.$socket.client.emit('history')
