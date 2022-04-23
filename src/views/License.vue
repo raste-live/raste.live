@@ -10,13 +10,20 @@
 
       <v-row>
         <v-col v-for="library of libraries" cols="12" md="6" class="mb-5" :key="library.name">
-          <v-btn text class="ml-5 mb-1 text-h6" :href="library.repository" target="_blank" color="primary">
+          <v-btn
+            class="mb-2 text-subtitle-1 font-weight-bold"
+            :href="library.repository"
+            target="_blank"
+            color="primary"
+            text
+            small
+          >
             {{ library.name }}
           </v-btn>
-          <div class="ml-10 text-subtitle-1 font-weight-bold">
+          <div class="mx-4 text-subtitle-1">
             {{ library.licenses }} LICENSE
           </div>
-          <div class="ml-10 text-subtitle-2 text--secondary">
+          <div class="mx-4 text-subtitle-2 text--secondary">
             {{ library.copyright }}
           </div>
         </v-col>
