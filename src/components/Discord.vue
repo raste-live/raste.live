@@ -29,7 +29,7 @@
       <v-lazy :options="{ threshold: .5 }" transition="fade-transition">
         <iframe 
           class="responsive-iframe" 
-          src="https://titanembeds.com/embed/633670564774543361?defaultchannel=633670564774543363&lockscrollbar=true&theme=DiscordDark" 
+          src="https://e.widgetbot.io/channels/633670564774543361/633670564774543363"
           frameborder="0" 
           sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
         ></iframe>
