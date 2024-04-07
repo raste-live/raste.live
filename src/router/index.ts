@@ -1,36 +1,16 @@
-import Vue from 'vue'
-import VueRouter, { RouteConfig } from 'vue-router'
+/**
+ * router/index.ts
+ *
+ * Automatic routes for `./src/pages/*.vue`
+ */
 
-Vue.use(VueRouter)
+// Composables
+import { createRouter, createWebHistory } from 'vue-router/auto'
+import { setupLayouts } from 'virtual:generated-layouts'
 
-const routes: Array<RouteConfig> = [
-  {
-    path: '/radio',
-    name: 'radio',
-    component: () => import('@/views/Radio.vue')
-  },
-  {
-    path: '/streaming',
-    name: 'streaming',
-    component: () => import('@/views/Streaming.vue')
-  },
-  {
-    path: '/license',
-    name: 'license',
-    component: () => import('@/views/License.vue')
-  },
-  { path: '/', redirect: { name: 'radio' } },
-  { path: '', redirect: { name: 'radio' } },
-  { path: '*', redirect: { name: 'radio' } },
-]
-
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes,
-  scrollBehavior () {
-    return { x: 0, y: 0 }
-  }
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  extendRoutes: setupLayouts,
 })
 
 export default router
