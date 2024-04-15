@@ -9,7 +9,7 @@
       </v-card-title>
 
       <v-card-subtitle class="mb-10">
-        본 웹사이트에 활용된 오픈소스 소프트웨어의 라이선스 고지입니다.
+        이 사이트에 활용된 오픈소스 소프트웨어의 라이선스는 다음과 같습니다.
       </v-card-subtitle>
 
       <v-row>

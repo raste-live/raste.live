@@ -12,7 +12,7 @@
           icon="mdi-license"
           variant="text"
           size="large"
-          to="/license"
+          to="/licenses"
         ></v-btn>
 
         <v-btn
