@@ -1,63 +1,64 @@
 <template>
-  <v-card>
+  <v-card class="my-8">
     <v-toolbar>
-      <v-app-bar-nav-icon>
-        <v-icon>
-          mdi-history
-        </v-icon>
-      </v-app-bar-nav-icon>
+      <v-app-bar-nav-icon icon="mdi-history"></v-app-bar-nav-icon>
 
-      <v-toolbar-title class="font-gugi ml-n4">
+      <v-toolbar-title class="font-gugi ml-0">
         History
       </v-toolbar-title>
     </v-toolbar>
 
+    <v-text-field
+      v-model="search"
+      class="mx-3 my-2"
+      label="검색"
+      prepend-inner-icon="mdi-magnify"
+      variant="outlined"
+      hide-details
+      single-line
+    ></v-text-field>
+
     <v-data-table
       :headers="headers"
-      :items="history"
+      :items="musicPlayerStore.playHistory"
       :items-per-page="5"
-      :footer-props="{ itemsPerPageText: '페이지 당 갯수' }"
-      sort-by="played_at"
-      :sort-desc="true">
+      :search="search"
+      :sort-by="[{ key: 'played_at', order: 'desc' }]"
+      item-key="id"
+      items-per-page-text="페이지 당 갯수"
+    >
       <template v-slot:item.played_at="{ item }">
-        {{ item.played_at | moment('LT') }}
+        {{ date.format(item.played_at, 'fullTime12h') }}
       </template>
+
       <template v-slot:no-data>
-        <v-icon large class="my-8">mdi-note-multiple-outline</v-icon>
+        <div
+          v-if="search"
+          class="my-16"
+        >
+          "{{ search }}"<br/>
+          검색어와 일치하는 곡이 없습니다.
+        </div>
+        <div v-else>
+          <v-icon size="large" icon="mdi-note-multiple-outline" class="my-16"></v-icon>
+        </div>
       </template>
     </v-data-table>
   </v-card>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import { Socket } from 'vue-socket.io-extended'
-import { mapGetters } from 'vuex'
+<script setup lang="ts">
+  import { useDate } from 'vuetify'
+  import { useMusicPlayerStore } from '@/stores/music-player'
 
-@Component({
-  computed: { ...mapGetters({ history: "history" }) }
-})
-export default class PlayHistory extends Vue {
-  headers = [
-    { text: '곡제목', value: 'title', sortable: false },
-    { text: '아티스트', value: 'artist', sortable: false },
-    { text: '재생', value: 'played_at', sortable: false },
+  const date = useDate()
+  const musicPlayerStore = useMusicPlayerStore()
+
+  const headers = [
+    { title: '곡제목', key: 'title', sortable: false },
+    { title: '아티스트', key: 'artist', sortable: false },
+    { title: '재생', key: 'played_at', sortable: false },
   ]
 
-  mounted () {
-    this.$socket.client.emit('history')
-  }
-  
-  @Socket('history')
-  getHistory (history: History[]) {
-    this.$store.commit('setHistory', history)
-  }
-
-  @Socket('metadata')
-  getMetadata (metadata: Metadata) {
-    if (metadata.is_metadata_changed) {
-      this.$socket.client.emit('history')
-    }
-  }
-}
+  const search = ref('')
 </script>
