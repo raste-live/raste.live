@@ -1,7 +1,7 @@
 {
   "name": "raste-live",
   "email": "raste.live@gmail.com",
-  "version": "0.7.0",
+  "version": "1.0.0",
   "license": "MIT",
   "private": true,
   "repository": {
@@ -9,55 +9,48 @@
     "url": "https://github.com/raste-live/raste.live"
   },
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --fix --ignore-path .gitignore"
   },
   "dependencies": {
-    "core-js": "^3.6.5",
-    "firebase": "^8.2.9",
-    "register-service-worker": "^1.7.1",
-    "socket.io-client": "^3.1.2",
-    "vue": "^2.6.11",
-    "vue-class-component": "^7.2.3",
-    "vue-moment": "^4.1.0",
-    "vue-property-decorator": "^9.1.2",
-    "vue-router": "^3.2.0",
-    "vue-socket.io-extended": "^4.0.6",
-    "vuetify": "^2.4.0",
-    "vuex": "^3.4.0"
+    "@date-io/date-fns": "^3.0.0",
+    "@mdi/font": "6.2.95",
+    "core-js": "^3.34.0",
+    "date-fns": "^3.6.0",
+    "firebase": "^10.10.0",
+    "roboto-fontface": "*",
+    "socket.io-client": "^4.7.5",
+    "vue": "^3.4.21",
+    "vuetify": "^3.5.8"
   },
   "devDependencies": {
-    "@mdi/font": "^5.9.55",
-    "@types/vue-moment": "^4.0.2",
-    "@typescript-eslint/eslint-plugin": "^2.33.0",
-    "@typescript-eslint/parser": "^2.33.0",
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-plugin-pwa": "~4.5.0",
-    "@vue/cli-plugin-router": "~4.5.0",
-    "@vue/cli-plugin-typescript": "~4.5.0",
-    "@vue/cli-plugin-vuex": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
-    "@vue/eslint-config-typescript": "^5.0.2",
-    "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^6.2.2",
-    "lint-staged": "^9.5.0",
-    "node-sass": "^4.12.0",
-    "sass": "^1.32.0",
-    "sass-loader": "^10.0.0",
-    "typescript": "~3.9.3",
-    "vue-cli-plugin-vuetify": "~2.1.0",
-    "vue-template-compiler": "^2.6.11",
-    "vuetify-loader": "^1.7.0"
-  },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
-  },
-  "lint-staged": {
-    "*.{js,jsx,vue,ts,tsx}": [
-      "vue-cli-service lint",
-      "git add"
-    ]
+    "@babel/types": "^7.24.0",
+    "@types/node": "^20.11.25",
+    "@vitejs/plugin-vue": "^5.0.4",
+    "@vue/eslint-config-typescript": "^13.0.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^16.6.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-vue": "^9.22.0",
+    "node-sass": "^9.0.0",
+    "pinia": "^2.1.7",
+    "prettier": "^3.2.5",
+    "sass": "^1.71.1",
+    "typescript": "^5.4.2",
+    "unplugin-auto-import": "^0.17.5",
+    "unplugin-fonts": "^1.1.1",
+    "unplugin-vue-components": "^0.26.0",
+    "unplugin-vue-router": "^0.8.4",
+    "vite": "^5.1.5",
+    "vite-plugin-vue-layouts": "^0.11.0",
+    "vite-plugin-vuetify": "^2.0.3",
+    "vue-router": "^4.3.0",
+    "vue-tsc": "^2.0.6"
   }
 }
