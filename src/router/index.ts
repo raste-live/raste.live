@@ -11,6 +11,11 @@ import { setupLayouts } from 'virtual:generated-layouts'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   extendRoutes: setupLayouts,
+  scrollBehavior() {
+    return new Promise((resolve) => {
+      resolve({ left: 0, top: 0 })
+    })
+  }
 })
 
 export default router
