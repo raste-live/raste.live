@@ -10,7 +10,12 @@ import { setupLayouts } from 'virtual:generated-layouts'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  extendRoutes: setupLayouts,
+  extendRoutes: (routes) => [
+    {
+      path: '/:pathMatch(.*)*', redirect: '/'
+    },
+    ...setupLayouts(routes)
+  ],
   scrollBehavior() {
     return new Promise((resolve) => {
       resolve({ left: 0, top: 0 })
