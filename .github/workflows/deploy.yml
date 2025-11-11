@@ -13,22 +13,22 @@ jobs:
       !contains(github.event.head_commit.message, '[skip ci]')
       }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Setup Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      - name: Cache dependencies
-        uses: actions/cache@v2
+      - name: Restore npm cache
+        uses: actions/cache/restore@v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -36,6 +36,13 @@ jobs:
             ${{ runner.os }}-node-
 
       - run: npm ci
+
+      - name: Save npm cache
+        uses: actions/cache/save@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+
       - run: npm run build
 
       - name: Deploy to S3
