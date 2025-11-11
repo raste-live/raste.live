@@ -70,30 +70,6 @@ export const useFavoriteStore = defineStore('favorite', () => {
     isLoading.value = true
   }
 
-  function fetchFavorites () {
-    return onSnapshot(collection(db, favoritePath.value), (snapshot) => {
-      snapshot.docChanges().forEach((change) => {
-        const favorite = change.doc.data() as Favorite
-
-        if (change.type === 'added') {
-          favorites.value.push(favorite)
-        } else {
-          const index = favorites.value.findIndex((item) => item.id == favorite.id)
-
-          if (index == -1) return
-
-          if (change.type === "modified") {
-            favorites.value[index] = favorite
-          } else if (change.type === "removed") {
-            favorites.value.splice(index, 1)
-          }
-        }
-      })
-
-      isLoading.value = false
-    })
-  }
-
   function addFavorite (trackInfo: TrackInfo) {
     setDoc(
       doc(db, 'songs', trackInfo.id),
@@ -126,7 +102,6 @@ export const useFavoriteStore = defineStore('favorite', () => {
     isLoading,
     initFavorites,
     disposeFavorites,
-    fetchFavorites,
     addFavorite,
     removeFavorite,
   }
