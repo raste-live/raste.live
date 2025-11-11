@@ -98,6 +98,20 @@ export const useMusicPlayerStore = defineStore('music-player', () => {
       isStreamOffline.value = response.is_stream_offline
 
       if (response.is_metadata_changed) socket.emit('history')
+
+      if (
+        isPlaying.value &&
+        !isStreamOffline.value &&
+        typeof navigator !== 'undefined' &&
+        typeof window !== 'undefined' &&
+        'mediaSession' in navigator &&
+        'MediaMetadata' in window
+      ) {
+        navigator.mediaSession.metadata = new window.MediaMetadata({
+          title: response.title,
+          artist: response.artist,
+        })
+      }
     })
 
     socket.on('history', (response: TrackInfo[]) => {
